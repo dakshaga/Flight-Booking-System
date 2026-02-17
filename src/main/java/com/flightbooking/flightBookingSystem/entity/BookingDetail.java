@@ -9,7 +9,7 @@ public class BookingDetail {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "booking_id")
@@ -24,17 +24,17 @@ public class BookingDetail {
     private SeatType seatType;
 
     @Column(name = "fare")
-    private Double fare;
+    private double fare;
 
     public BookingDetail() {
 
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -62,11 +62,11 @@ public class BookingDetail {
         this.seatType = seatType;
     }
 
-    public Double getFare() {
+    public double getFare() {
         return fare;
     }
 
-    public void setFare(Double fare) {
+    public void setFare(double fare) {
         this.fare = fare;
     }
 }

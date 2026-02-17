@@ -11,7 +11,7 @@ public class Booking {
 
     @Id
     @Column(name = "id")
-    private Integer id;
+    private int id;
 
     @ManyToOne()
     @JoinColumn(name = "user_id")
@@ -21,7 +21,7 @@ public class Booking {
     private LocalDateTime bookingTime;
 
     @Column(name = "amount")
-    private Double amount;
+    private double amount;
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
     private List<BookingDetail> bookingDetails;
@@ -30,11 +30,11 @@ public class Booking {
 
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -54,11 +54,11 @@ public class Booking {
         this.bookingTime = bookingTime;
     }
 
-    public Double getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

@@ -27,9 +27,6 @@ public class Flight {
     @Column(name = "arrival_time")
     private LocalDateTime arrivalTime;
 
-    @Column(name = "duration")
-    private Duration duration;
-
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
     private List<FlightSeatInventory> seatInventories;
 
@@ -75,14 +72,6 @@ public class Flight {
 
     public void setArrivalTime(LocalDateTime arrivalTime) {
         this.arrivalTime = arrivalTime;
-    }
-
-    public Duration getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Duration duration) {
-        this.duration = duration;
     }
 
     public List<FlightSeatInventory> getSeatInventories() {

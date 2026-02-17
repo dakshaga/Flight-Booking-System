@@ -9,7 +9,7 @@ public class FlightSeatInventory {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @ManyToOne()
     @JoinColumn(name = "flight_id")
@@ -20,23 +20,23 @@ public class FlightSeatInventory {
     private SeatType seatType;
 
     @Column(name = "total_seats")
-    private Integer totalSeats;
+    private int totalSeats;
 
     @Column(name = "available_seats")
-    private Integer availabelSeats;
+    private int availableSeats;
 
     @Column(name = "fare")
-    private Double fare;
+    private double fare;
 
     public FlightSeatInventory() {
 
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -56,27 +56,27 @@ public class FlightSeatInventory {
         this.seatType = seatType;
     }
 
-    public Integer getTotalSeats() {
+    public int getTotalSeats() {
         return totalSeats;
     }
 
-    public void setTotalSeats(Integer totalSeats) {
+    public void setTotalSeats(int totalSeats) {
         this.totalSeats = totalSeats;
     }
 
-    public Integer getAvailabelSeats() {
-        return availabelSeats;
+    public int getAvailableSeats() {
+        return availableSeats;
     }
 
-    public void setAvailabelSeats(Integer availabelSeats) {
-        this.availabelSeats = availabelSeats;
+    public void setAvailableSeats(int availableSeats) {
+        this.availableSeats = availableSeats;
     }
 
-    public Double getFare() {
+    public double getFare() {
         return fare;
     }
 
-    public void setFare(Double fare) {
+    public void setFare(double fare) {
         this.fare = fare;
     }
 }
