@@ -1,12 +1,23 @@
 package com.flightbooking.flightBookingSystem.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+
 public class FlightSeatInventoryDTO {
 
     private int id;
     private int flightId;
+
+    @NotBlank(message = "Seat Type is required")
     private String seatType;
+
+    @Positive(message = "Total Seats should be positive")
     private int totalSeats;
+
+    @Positive(message = "Available Seats should be positive")
     private int availableSeats;
+
+    @Positive(message = "Fare must be positive")
     private double fare;
 
     // Empty Constructor
