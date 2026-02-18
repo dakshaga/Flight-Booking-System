@@ -1,5 +1,6 @@
 package com.flightbooking.flightBookingSystem.entity;
 
+import com.flightbooking.flightBookingSystem.enums.SeatType;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,7 +16,7 @@ public class FlightSeatInventory {
     @JoinColumn(name = "flight_id")
     private Flight flight;
 
-    @ManyToOne
+    @Enumerated(EnumType.STRING)
     @JoinColumn(name =  "seat_type_id")
     private SeatType seatType;
 
