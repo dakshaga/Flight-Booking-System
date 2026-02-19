@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class BookingDTO {
-    private int id;
+    private Integer id;
     private String userName;
     private String userEmail;
     private LocalDateTime bookingTime;
-    private double totalAmount;
+    private Double totalAmount;
     private List<BookingDetailDTO> bookingDetails;
 
     // Empty Constructor
@@ -17,7 +17,7 @@ public class BookingDTO {
     }
 
     // Constructor
-    public BookingDTO(int id, String userName, String userEmail, LocalDateTime bookingTime, double totalAmount, List<BookingDetailDTO> bookingDetails) {
+    public BookingDTO(Integer id, String userName, String userEmail, LocalDateTime bookingTime, Double totalAmount, List<BookingDetailDTO> bookingDetails) {
         this.id = id;
         this.userName = userName;
         this.userEmail = userEmail;
@@ -28,11 +28,11 @@ public class BookingDTO {
 
     // Getters and Setters
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -60,11 +60,11 @@ public class BookingDTO {
         this.bookingTime = bookingTime;
     }
 
-    public double getTotalAmount() {
+    public Double getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(double totalAmount) {
+    public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
     }
 

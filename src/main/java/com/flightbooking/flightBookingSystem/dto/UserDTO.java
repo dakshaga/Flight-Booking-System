@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import org.antlr.v4.runtime.misc.NotNull;
 
 public class UserDTO {
-    private int id;
+    private Integer id;
 
     @NotBlank(message = "Name is required")
     private String name;
@@ -20,7 +20,7 @@ public class UserDTO {
     }
 
     // Constructor
-    public UserDTO(int id, String name, String email) {
+    public UserDTO(Integer id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -28,11 +28,11 @@ public class UserDTO {
 
     // Getters and Setters
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

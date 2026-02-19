@@ -1,12 +1,12 @@
 package com.flightbooking.flightBookingSystem.dto;
 
 public class BookingDetailDTO {
-    private int id;
-    private int flightId;
+    private Integer id;
+    private Integer flightId;
     private String flightSource;
     private String flightDestination;
     private String seatType;
-    private double fare;
+    private Double fare;
 
     // Empty Constructor
     public BookingDetailDTO() {
@@ -14,7 +14,7 @@ public class BookingDetailDTO {
     }
 
     // Constructor
-    public BookingDetailDTO(int id, int flightId, String flightSource, String flightDestination, String seatType, double fare) {
+    public BookingDetailDTO(Integer id, Integer flightId, String flightSource, String flightDestination, String seatType, Double fare) {
         this.id = id;
         this.flightId = flightId;
         this.flightSource = flightSource;
@@ -25,19 +25,19 @@ public class BookingDetailDTO {
 
     // Getters and Setters
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getFlightId() {
+    public Integer getFlightId() {
         return flightId;
     }
 
-    public void setFlightId(int flightId) {
+    public void setFlightId(Integer flightId) {
         this.flightId = flightId;
     }
 
@@ -65,11 +65,11 @@ public class BookingDetailDTO {
         this.seatType = seatType;
     }
 
-    public double getFare() {
+    public Double getFare() {
         return fare;
     }
 
-    public void setFare(double fare) {
+    public void setFare(Double fare) {
         this.fare = fare;
     }
 }

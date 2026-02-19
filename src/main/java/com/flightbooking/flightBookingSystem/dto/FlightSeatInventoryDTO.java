@@ -5,20 +5,20 @@ import jakarta.validation.constraints.Positive;
 
 public class FlightSeatInventoryDTO {
 
-    private int id;
-    private int flightId;
+    private Integer id;
+    private Integer flightId;
 
     @NotBlank(message = "Seat Type is required")
     private String seatType;
 
     @Positive(message = "Total Seats should be positive")
-    private int totalSeats;
+    private Integer totalSeats;
 
     @Positive(message = "Available Seats should be positive")
-    private int availableSeats;
+    private Integer availableSeats;
 
     @Positive(message = "Fare must be positive")
-    private double fare;
+    private Double fare;
 
     // Empty Constructor
     public FlightSeatInventoryDTO() {
@@ -26,7 +26,7 @@ public class FlightSeatInventoryDTO {
     }
 
     // Constructor
-    public FlightSeatInventoryDTO(int id, int flightId, String seatType, int totalSeats, int availableSeats, double fare) {
+    public FlightSeatInventoryDTO(Integer id, Integer flightId, String seatType, Integer totalSeats, Integer availableSeats, Double fare) {
         this.id = id;
         this.flightId = flightId;
         this.seatType = seatType;
@@ -37,19 +37,19 @@ public class FlightSeatInventoryDTO {
 
     // Getters and Setters
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getFlightId() {
+    public Integer getFlightId() {
         return flightId;
     }
 
-    public void setFlightId(int flightId) {
+    public void setFlightId(Integer flightId) {
         this.flightId = flightId;
     }
 
@@ -61,27 +61,27 @@ public class FlightSeatInventoryDTO {
         this.seatType = seatType;
     }
 
-    public int getTotalSeats() {
+    public Integer getTotalSeats() {
         return totalSeats;
     }
 
-    public void setTotalSeats(int totalSeats) {
+    public void setTotalSeats(Integer totalSeats) {
         this.totalSeats = totalSeats;
     }
 
-    public int getAvailableSeats() {
+    public Integer getAvailableSeats() {
         return availableSeats;
     }
 
-    public void setAvailableSeats(int availableSeats) {
+    public void setAvailableSeats(Integer availableSeats) {
         this.availableSeats = availableSeats;
     }
 
-    public double getFare() {
+    public Double getFare() {
         return fare;
     }
 
-    public void setFare(double fare) {
+    public void setFare(Double fare) {
         this.fare = fare;
     }
 }

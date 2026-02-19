@@ -3,12 +3,13 @@ package com.flightbooking.flightBookingSystem.dto;
 import com.flightbooking.flightBookingSystem.entity.FlightSeatInventory;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class FlightDTO {
-    private int id;
+    private Integer id;
 
     @NotBlank(message = "Source is required")
     private String source;
@@ -16,17 +17,17 @@ public class FlightDTO {
     @NotBlank(message = "Destination is required")
     private String destination;
 
-    @NotBlank(message = "Departure time is required")
+    @NotNull(message = "Departure time is required")
     private LocalDateTime departureTime;
 
-    @NotBlank(message = "Arrival time is required")
+    @NotNull(message = "Arrival time is required")
     private LocalDateTime arrivalTime;
 
     public FlightDTO() {
 
     }
 
-    public FlightDTO(int id, String source, String destination, LocalDateTime departureTime, LocalDateTime arrivalTime) {
+    public FlightDTO(Integer id, String source, String destination, LocalDateTime departureTime, LocalDateTime arrivalTime) {
         this.id = id;
 
         this.source = source;
@@ -35,11 +36,11 @@ public class FlightDTO {
         this.arrivalTime = arrivalTime;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
