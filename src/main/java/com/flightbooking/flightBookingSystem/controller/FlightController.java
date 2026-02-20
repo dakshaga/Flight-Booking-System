@@ -31,8 +31,8 @@ public class FlightController {
         return ResponseEntity.ok(flightService.getAllFlightsWithPagination(page, size));
     }
 
-    // addflight
-    @PostMapping("/addflight")
+    // add flight
+    @PostMapping()
     public ResponseEntity<FlightDTO> addFlight(@Valid @RequestBody Map<String, Object> request) {
         FlightDTO flightDTO = objectMapper.convertValue(request.get("flight"), FlightDTO.class);
 
