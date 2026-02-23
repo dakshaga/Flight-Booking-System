@@ -2,6 +2,9 @@ package com.flightbooking.flightBookingSystem.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -16,6 +19,10 @@ public class User {
     @Column(name = "emailId")
     private String email;
 
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Booking> bookings;
     public User() {
 
     }
@@ -47,5 +54,15 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void addBooking(Booking booking) {
+        bookings.add(booking);
+        booking.setUser(this);
+    }
+
+    public void removeBooking(Booking booking) {
+        bookings.remove(booking);
+        booking.setUser(null);
     }
 }

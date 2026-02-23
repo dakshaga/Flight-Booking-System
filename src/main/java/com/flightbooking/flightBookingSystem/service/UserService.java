@@ -6,6 +6,7 @@ import com.flightbooking.flightBookingSystem.exception.custom.DuplicateResourceE
 import com.flightbooking.flightBookingSystem.exception.custom.ResourceNotFoundException;
 import com.flightbooking.flightBookingSystem.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,6 +46,7 @@ public class UserService {
     }
 
     // delete user
+    @Transactional
     public void deleteUser(String mail) {
         User user = userRepository
                 .findByEmail(mail)

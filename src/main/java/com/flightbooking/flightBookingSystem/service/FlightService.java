@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -75,10 +76,10 @@ public class FlightService {
     }
 
     // Delete Flight
+    @Transactional
     public void deleteFlight(int flightId) {
-        if(!flightRepository.existsById(flightId)){
-            throw new ResourceNotFoundException("Flight not found with id: " + flightId);
-        }
+        Flight flight = flightRepository.findById(flightId).orElseThrow(() -> new ResourceNotFoundException("Flight not found with id: " + flightId));
+        flight.getBookingDetails().size(); // forces hibernate to initialize select statement
         flightRepository.deleteById(flightId);
     }
 

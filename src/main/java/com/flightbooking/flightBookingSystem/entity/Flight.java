@@ -30,6 +30,11 @@ public class Flight {
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
     private List<FlightSeatInventory> seatInventories;
 
+    @OneToMany(mappedBy = "flight",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<BookingDetail> bookingDetails;
+
     public Flight() {
 
     }
@@ -80,5 +85,23 @@ public class Flight {
 
     public void setSeatInventories(List<FlightSeatInventory> seatInventories) {
         this.seatInventories = seatInventories;
+    }
+
+    public List<BookingDetail> getBookingDetails() {
+        return bookingDetails;
+    }
+
+    public void setBookingDetails(List<BookingDetail> bookingDetails) {
+        this.bookingDetails = bookingDetails;
+    }
+
+    public void addBookingDetail(BookingDetail bookingDetail) {
+        bookingDetails.add(bookingDetail);
+        bookingDetail.setFlight(this);
+    }
+
+    public void removeBookingDetail(BookingDetail bookingDetail) {
+        bookingDetails.remove(bookingDetail);
+        bookingDetail.setFlight(null);
     }
 }
