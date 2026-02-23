@@ -5,6 +5,7 @@ import com.flightbooking.flightBookingSystem.dto.FlightSeatInventoryDTO;
 import com.flightbooking.flightBookingSystem.entity.Flight;
 import com.flightbooking.flightBookingSystem.entity.FlightSeatInventory;
 import com.flightbooking.flightBookingSystem.enums.SeatType;
+import com.flightbooking.flightBookingSystem.exception.custom.ResourceNotFoundException;
 import com.flightbooking.flightBookingSystem.repository.FlightRepository;
 import com.flightbooking.flightBookingSystem.repository.FlightSeatInventoryRepository;
 import org.springframework.data.domain.Page;
@@ -45,7 +46,7 @@ public class FlightService {
         for(FlightSeatInventoryDTO invDTO : inventories) {
             FlightSeatInventory inventory = new FlightSeatInventory();
             inventory.setFlight(savedFlight);
-            inventory.setSeatType(SeatType.valueOf(invDTO.getSeatType().toUpperCase()));
+            inventory.setSeatType(SeatType.valueOf(invDTO.getSeatType().toUpperCase()));  // check for error handling
             inventory.setTotalSeats(invDTO.getTotalSeats());
             inventory.setAvailableSeats(invDTO.getAvailableSeats());
             inventory.setFare(invDTO.getFare());
@@ -60,7 +61,7 @@ public class FlightService {
     public FlightDTO updateFlight(int flightId, FlightDTO flightDTO) {
         Optional<Flight> isFlight = flightRepository.findById(flightId);
         if(isFlight.isEmpty()) {
-            throw new RuntimeException("Flight Not Found: " + flightId);
+            throw new ResourceNotFoundException("Flight not found with id: " + flightId);
         }
         Flight flight = isFlight.get();
         flight.setSource(flightDTO.getSource());
@@ -76,7 +77,7 @@ public class FlightService {
     // Delete Flight
     public void deleteFlight(int flightId) {
         if(!flightRepository.existsById(flightId)){
-            throw new RuntimeException("Flight does not exist!!!!!!");
+            throw new ResourceNotFoundException("Flight not found with id: " + flightId);
         }
         flightRepository.deleteById(flightId);
     }
@@ -85,7 +86,7 @@ public class FlightService {
     public FlightDTO getFlightById(int flightId) {
         Optional<Flight> isFlight = flightRepository.findById(flightId);
         if(isFlight.isEmpty()) {
-            throw new RuntimeException("There is no flight with number :" + flightId);
+            throw new ResourceNotFoundException("Flight not found with id: " + flightId);
         }
         return mapToDTO(isFlight.get());
     }
@@ -111,7 +112,7 @@ public class FlightService {
     public List<FlightSeatInventoryDTO> getSeatInventory(int flightId) {
         Optional<Flight> isFlight = flightRepository.findById(flightId);
         if(isFlight.isEmpty()) {
-            throw new RuntimeException("Flight not found with id: " +flightId);
+            throw new ResourceNotFoundException("Flight not found with id: " + flightId);
         }
 
         Flight flight = isFlight.get();
@@ -119,7 +120,7 @@ public class FlightService {
         for(FlightSeatInventory inv : flight.getSeatInventories()) {
             FlightSeatInventoryDTO seatdto = new FlightSeatInventoryDTO();
             seatdto.setId(inv.getId());
-            seatdto.setFlightId(inv.getId());
+            seatdto.setFlightId(flight.getId());
             seatdto.setSeatType(inv.getSeatType().name());
             seatdto.setTotalSeats(inv.getTotalSeats());
             seatdto.setAvailableSeats(inv.getAvailableSeats());

@@ -3,8 +3,10 @@ package com.flightbooking.flightBookingSystem.service;
 import com.flightbooking.flightBookingSystem.dto.*;
 import com.flightbooking.flightBookingSystem.entity.*;
 import com.flightbooking.flightBookingSystem.enums.SeatType;
+import com.flightbooking.flightBookingSystem.exception.custom.InvalidInputException;
+import com.flightbooking.flightBookingSystem.exception.custom.ResourceNotFoundException;
+import com.flightbooking.flightBookingSystem.exception.custom.SeatUnavailableException;
 import com.flightbooking.flightBookingSystem.repository.*;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,7 +32,8 @@ public class BookingService {
 
     // Create Booking
     public BookingDTO createBooking(String emailId, List<BookingDetailDTO> flightSelections) {
-        User user = userRepository.findByEmail(emailId).orElseThrow(() -> new RuntimeException("Email Id not found!!! " + emailId));
+        User user = userRepository.findByEmail(emailId).orElseThrow(
+                () -> new ResourceNotFoundException("User not found with id:  " + emailId));
 
         Booking booking = new Booking();
         booking.setUser(user);
@@ -41,23 +44,24 @@ public class BookingService {
         double totalFare = 0;
         List<BookingDetail> bookingDetails = new ArrayList<>();
         for(BookingDetailDTO detailDTO : flightSelections) {
-            Flight flight = flightRepository.findById(detailDTO.getFlightId()).orElseThrow(()-> new RuntimeException("Flight not Found: " + detailDTO.getFlightId()));
+            Flight flight = flightRepository.findById(detailDTO.getFlightId()).orElseThrow(
+                    ()-> new ResourceNotFoundException("Flight not found: " + detailDTO.getFlightId()));
 
             // Here we have checked whether that seat type is in our enum
             SeatType seatType;
             try {
                 seatType = SeatType.valueOf(detailDTO.getSeatType().toUpperCase());
             } catch (Exception e) {
-                throw new RuntimeException("Invalid Seat type!!");
+                throw new InvalidInputException("Invalid seat type: " + detailDTO.getSeatType());
             }
 
             // now will check where flightId and seatType combination occurs???
             FlightSeatInventory inventory = flightSeatInventoryRepository
                     .findByFlightIdAndSeatType(flight.getId(), seatType)
-                    .orElseThrow(() -> new RuntimeException("Seat Inventory Not Found!!"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Seat Inventory Not Found for flight id: " + flight.getId() + " and seat tpye: " + seatType));
 
             if(inventory.getAvailableSeats() <= 0) {
-                throw new RuntimeException("Seat are not available in the flight with id: " + flight.getId());
+                throw new SeatUnavailableException("Seat are not available in the flight with id: " + flight.getId());
             }
 
             inventory.setAvailableSeats(inventory.getAvailableSeats() -1);
@@ -83,7 +87,8 @@ public class BookingService {
 
     // get bookings by user emailId
     public List<BookingDTO> getBookingsByUser(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found!!"));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with mailId: " + email));
 
         List<Booking> bookings = bookingRepository.findByUserId(user.getId());
         List<BookingDTO> bookingDTO = new ArrayList<>();
@@ -107,11 +112,12 @@ public class BookingService {
 
     // Cancel Bookings
     public void cancelBooking(int bookingId) {
-        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new RuntimeException("Booking not found with id: " + bookingId));
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + bookingId));
 
         for(BookingDetail details : booking.getBookingDetails()) {
             FlightSeatInventory inventory = flightSeatInventoryRepository.findByFlightIdAndSeatType(details.getFlight().getId(), details.getSeatType())
-                    .orElseThrow(() -> new RuntimeException("Seat Inventory not found!!"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Seat Inventory not found: " + details.getFlight().getId()));
 
             inventory.setAvailableSeats(inventory.getAvailableSeats() + 1);
             flightSeatInventoryRepository.save(inventory);
@@ -144,3 +150,4 @@ public class BookingService {
         );
     }
 }
+

@@ -2,6 +2,8 @@ package com.flightbooking.flightBookingSystem.service;
 
 import com.flightbooking.flightBookingSystem.dto.UserDTO;
 import com.flightbooking.flightBookingSystem.entity.User;
+import com.flightbooking.flightBookingSystem.exception.custom.DuplicateResourceException;
+import com.flightbooking.flightBookingSystem.exception.custom.ResourceNotFoundException;
 import com.flightbooking.flightBookingSystem.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,7 @@ public class UserService {
     public UserDTO createUser(UserDTO userDTO) {
         Optional<User> isExistingUser = userRepository.findByEmail(userDTO.getEmail());
         if(isExistingUser.isPresent()) {
-            throw new RuntimeException("User already exist with mail id: " + userDTO.getEmail());
+            throw new DuplicateResourceException("User already exist with mail id: " + userDTO.getEmail());
         }
 
         User user = mapToEntity(userDTO);
@@ -31,8 +33,10 @@ public class UserService {
     }
 
     // finding user by mailId
-    public User getUserByMailId(String mailId) {
-        return userRepository.findByEmail(mailId).orElseThrow(() -> new RuntimeException("User not found with mailId: " + mailId));
+    public UserDTO getUserByMailId(String mailId) {
+        User user = userRepository.findByEmail(mailId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with mailId: " + mailId));
+        return mapToDTO(user);
     }
 
     // getting all users
@@ -44,7 +48,7 @@ public class UserService {
     public void deleteUser(String mail) {
         User user = userRepository
                 .findByEmail(mail)
-                .orElseThrow(() -> new RuntimeException("User not Found!!!"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not Found with email: " + mail));
         userRepository.delete(user);
     }
 
@@ -63,3 +67,4 @@ public class UserService {
         return user;
     }
 }
+
