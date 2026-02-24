@@ -2,8 +2,8 @@ package com.flightbooking.flightBookingSystem.controller;
 
 import com.flightbooking.flightBookingSystem.dto.BookingDTO;
 import com.flightbooking.flightBookingSystem.dto.BookingDetailDTO;
+import com.flightbooking.flightBookingSystem.payload.ApiResponse;
 import com.flightbooking.flightBookingSystem.service.BookingService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tools.jackson.core.type.TypeReference;
@@ -24,35 +24,38 @@ public class BookingController {
         this.objectMapper = objectMapper;
     }
 
-    ////////////////////
     // create booking
     @PostMapping
-    public ResponseEntity<BookingDTO> createBooking(@RequestBody Map<String, Object> bookingDTO){
+    public ResponseEntity<ApiResponse<BookingDTO>> createBooking(@RequestBody Map<String, Object> bookingDTO){
         String email = (String) bookingDTO.get("email");
-
         List<BookingDetailDTO> flightSelections = objectMapper.convertValue(bookingDTO.get("flights"), new TypeReference<List<BookingDetailDTO>>() {});
-
         BookingDTO booking = bookingService.createBooking(email, flightSelections);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(booking);
+        ApiResponse<BookingDTO> response = new ApiResponse<>(true, "Booking created successfully", booking);
+        return ResponseEntity.ok(response);
     }
 
     // get booking by emailId
     @GetMapping("/user")
-    public ResponseEntity<List<BookingDTO>> getBookingByUserMailId(@RequestParam String emailId) {
-        return ResponseEntity.ok(bookingService.getBookingsByUser(emailId));
+    public ResponseEntity<ApiResponse<List<BookingDTO>>> getBookingByUserMailId(@RequestParam String emailId) {
+        List<BookingDTO> bookingDTO = bookingService.getBookingsByUser(emailId);
+        ApiResponse<List<BookingDTO>> response = new ApiResponse<>(true, "User booking fetched successfully", bookingDTO);
+        return ResponseEntity.ok(response);
     }
 
     // get all bookings
     @GetMapping("/all")
-    public ResponseEntity<List<BookingDTO>> getAllBookings() {
-        return ResponseEntity.ok(bookingService.getAllBookings());
+    public ResponseEntity<ApiResponse<List<BookingDTO>>> getAllBookings() {
+        List<BookingDTO> bookingDTOS = bookingService.getAllBookings();
+        ApiResponse<List<BookingDTO>> response = new ApiResponse<>(true, "Fetched all bookings successfully", bookingDTOS);
+        return ResponseEntity.ok(response);
     }
 
     // cancel booking
     @DeleteMapping("/{bookingId}")
-    public ResponseEntity<String> cancelBooking(@PathVariable int bookingId) {
+    public ResponseEntity<ApiResponse<Void>> cancelBooking(@PathVariable int bookingId) {
         bookingService.cancelBooking(bookingId);
-        return ResponseEntity.ok("Booking cancelled Successfully");
+        ApiResponse<Void> response = new ApiResponse<>(true, "Booking deleted successfully", null);
+        return ResponseEntity.ok(response);
     }
 }
